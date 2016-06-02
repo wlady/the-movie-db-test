@@ -11,7 +11,7 @@ if (isset($error)) { ?>
 <?php } else if (isset($movie)) { ?>
 	<div class="full">
 		<div style="float: left;">
-			<?php if ($movie->poster_path) { ?>
+			<?php if ($movie->poster_path && is_file(getcwd().$movie->poster_path)) { ?>
 				<img src="<?php echo $movie->poster_path; ?>" class="crop" />
 			<?php } else { ?>
 				<img src="http://placehold.it/185x278/eee/ccc?text=No Image" class="crop" />
@@ -63,9 +63,6 @@ if (isset($error)) { ?>
 			</div>
 			<div class="clearfix" style="height: 32px;"></div>
 			<a href="/movie/update/<?php echo $movie->id; ?>">Edit</a>
-			<?php
-			//                echo CHtml::ajaxLink('Delete', array('/movie/delete/', 'id'=>$movie->id), array('method'=>'DELETE'), array('onclick'=>"return confirm('Are you sure?')"));
-			?>
 			<a href="/site/index" onclick="if(confirm('Are you sure?')){$.ajax({'method':'POST','url':'/movie/delete/<?php echo $movie->id; ?>'}); return true}else{return false}">Delete</a>
 		</div>
 	</div>
