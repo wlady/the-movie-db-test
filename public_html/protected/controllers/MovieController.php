@@ -39,6 +39,9 @@ class MovieController extends Controller
         );
     }
 
+    /**
+     * Get requested record from TMDb and saves it to cache (local DB).
+     */
     public function actionView()
     {
         Yii::app()->getClientScript()->registerCoreScript('yii');
@@ -46,8 +49,10 @@ class MovieController extends Controller
         if ($id) {
             $movie = new Movie;
             if ($model = $movie->find('tmdbID=:tmdbID', array('tmdbID' => $id))) {
+                // found in local DB
                 $res = null;
             } else {
+                // fetch it from TMDb
                 $output = Yii::app()->curl->get('https://api.themoviedb.org/3/movie/' . $id . '?&api_key=' . TMDbSession::getApiKey());
                 $res = json_decode($output);
             }
@@ -58,6 +63,7 @@ class MovieController extends Controller
                 );
             } else {
                 if ($res) {
+                    // save it to local DB if not yet exists
                     $model = $movie->persist($res);
                 }
                 $this->render('view', array(

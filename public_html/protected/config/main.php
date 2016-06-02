@@ -36,10 +36,27 @@ return array(
             'allowAutoLogin' => true,
         ),
 
+        'curl' => array(
+            'class' => 'Curl',
+            'options' => array(),
+        ),
+
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'trace, info',
+                    //'filter'=>'CLogFilter',
+                ),
+            ),
+        ),
+
         // uncomment the following to enable URLs in path-format
 
         'urlManager' => array(
             'urlFormat' => 'path',
+            'showScriptName' => false,
             'rules' => array(
                 'gii' => 'gii',
                 'gii/<controller:\w+>' => 'gii/<controller>',
@@ -56,25 +73,18 @@ return array(
 
         'errorHandler' => array(
             // use 'site/error' action to display errors
-            'errorAction' => YII_DEBUG ? null : 'site/error',
+            //'errorAction' => YII_DEBUG ? null : 'site/error',
         ),
 
-        'log' => array(
-            'class' => 'CLogRouter',
-            'routes' => array(
-                array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
-                ),
-                // uncomment the following to show log messages on web pages
-                /*
-                array(
-                    'class'=>'CWebLogRoute',
-                ),
-                */
-            ),
-        ),
-
+//        'log' => array(
+//            'class' => 'CLogRouter',
+//            'routes' => array(
+//                array(
+//                    'class' => 'CFileLogRoute',
+//                    'levels' => 'error, warning',
+//                ),
+//            ),
+//        ),
     ),
 
     // application-level parameters that can be accessed

@@ -8,7 +8,7 @@
  */
 class MyUserIdentity extends CUserIdentity
 {
-    // custom error
     const ERROR_API_KEY_INVALID = 7;
 
+    public $api_key = null;
 }

@@ -227,3 +227,43 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+.brief {
+	border-bottom: solid 1px #ddd;
+	width: 185px;
+	height: 400px;
+	float: left;
+	margin: 5px;
+	padding: 10px;
+}
+.brief h2 {
+	font-size: 16px;
+	font-weight: bold;
+	height: 48px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.brief dd, .full dd {
+	width: 50px;
+	margin: 0;
+	float: left;
+}
+.full {
+	padding: 10px;
+}
+.full dd {
+	font-weight:bold;
+	width: 100px;
+}
+.full dt {
+	padding-left: 100px;
+}
+.crop {
+	width: 185px;
+	height: 278px;
+	overflow: hidden;
+}
+.pager {
+	padding: 30px;
+	float: right;
+}

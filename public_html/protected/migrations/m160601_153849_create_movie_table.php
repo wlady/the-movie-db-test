@@ -15,6 +15,7 @@ class m160601_153849_create_movie_table extends CDbMigration
             'vote_average'   => 'float',
             'poster_path'    => 'text',
             'genres'         => 'text',
+            'rate'           => 'int',
         ));
     }
 

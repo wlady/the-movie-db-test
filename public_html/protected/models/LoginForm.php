@@ -7,80 +7,52 @@
  */
 class LoginForm extends CFormModel
 {
-	public $username;
-	public $password;
-	public $rememberMe;
+    public $api_key = null;
+    public $rememberMe = 3600; // 1 hour
 
-	private $_identity;
+    private $_identity;
 
-	/**
-	 * Declares the validation rules.
-	 * The rules state that username and password are required,
-	 * and password needs to be authenticated.
-	 */
-	public function rules()
-	{
-		return array(
-			// username and password are required
-			array('username, password', 'required'),
-			// rememberMe needs to be a boolean
-			array('rememberMe', 'boolean'),
-			// password needs to be authenticated
-			array('password', 'authenticate'),
-		);
-	}
+    /**
+     * Declares the validation rules.
+     * The rules state that api_key is required,
+     * and password needs to be authenticated.
+     */
+    public function rules()
+    {
+        return array(
+            // api_key is required
+            array('api_key', 'required'),
+        );
+    }
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'rememberMe'=>'Remember me next time',
-		);
-	}
+    /**
+     * Declares attribute labels.
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'api_key' => 'TMDb API Key',
+        );
+    }
 
-	/**
-	 * Authenticates the password.
-	 * This is the 'authenticate' validator as declared in rules().
-	 */
-	public function authenticate($attribute,$params)
-	{
-		if(!$this->hasErrors()) {
-			$this->_identity = new UserIdentity($this->username, $this->password);
-            $this->_identity->authenticate();
-            // this approach is for test purposes only!
-            // It should not be used in real app under any circumstances
-            switch($this->_identity->errorCode)
-            {
-                case UserIdentity::ERROR_USERNAME_INVALID:
-                    $this->addError('username', 'Incorrect username');
-                    break;
-                case UserIdentity::ERROR_PASSWORD_INVALID:
-                    $this->addError('password', 'Incorrect password');
-                    break;
+    /**
+     * Logs in the user using the given api_key and password in the model.
+     * @return boolean whether login is successful
+     */
+    public function login()
+    {
+        if ($this->_identity === null) {
+            $this->_identity = new UserIdentity($this->api_key);
+            if (!$this->_identity->authenticate()) {
+                $this->addError('api_key', $this->_identity->errorMessage);
             }
-		}
-	}
-
-	/**
-	 * Logs in the user using the given username and password in the model.
-	 * @return boolean whether login is successful
-	 */
-	public function login()
-	{
-		if($this->_identity===null)
-		{
-			$this->_identity=new UserIdentity($this->username,$this->password);
-			$this->_identity->authenticate();
-		}
-		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
-		{
-			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-			Yii::app()->user->login($this->_identity,$duration);
-			return true;
-		}
-		else
-			return false;
-	}
+        }
+        if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
+            Yii::app()->user->setState('api_key', $this->api_key);
+            Yii::app()->user->login($this->_identity, $this->rememberMe);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

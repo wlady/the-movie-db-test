@@ -36,7 +36,32 @@ if (isset($error)) { ?>
 					</dt>
 				</div>
 			<?php } ?>
-			<div class="clearfix"></div>
+			<div>
+				<dd>My Rate:</dd>
+				<dt>
+			<?php
+			$this->widget('CStarRating',array(
+				'name'=>'star_rating_ajax',
+				'value'=>$movie->rate,
+				'minRating'=>1,
+            	'maxRating'=>5,
+				'callback'=>'
+					function(){
+							var val = typeof($(this).attr(\'type\'))==\'undefined\' ? 0 : $(this).val();
+							$.ajax({
+								type: "POST",
+								url: "'.Yii::app()->createUrl('movie/rate').'",
+								data: "id='.$movie->id.'&rating=" + val,
+								success: function(data){
+											$("#mystar_voting").html(data);
+									}})}'
+						));
+						echo "<br/>";
+						echo "<div id='mystar_voting'></div>";
+			?>
+				</dt>
+			</div>
+			<div class="clearfix" style="height: 32px;"></div>
 			<a href="/movie/update/<?php echo $movie->id; ?>">Edit</a>
 			<?php
 			//                echo CHtml::ajaxLink('Delete', array('/movie/delete/', 'id'=>$movie->id), array('method'=>'DELETE'), array('onclick'=>"return confirm('Are you sure?')"));
