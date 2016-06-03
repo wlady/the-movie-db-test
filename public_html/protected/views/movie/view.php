@@ -50,8 +50,8 @@ if (isset($error)) { ?>
 							var val = typeof($(this).attr(\'type\'))==\'undefined\' ? 0 : $(this).val();
 							$.ajax({
 								type: "POST",
-								url: "'.Yii::app()->createUrl('movie/rate').'",
-								data: "id='.$movie->id.'&rating=" + val,
+								url: "'.Yii::app()->createUrl('movie/rate', array('id'=>$movie->id)).'",
+								data: "rating=" + val,
 								success: function(data){
 											$("#mystar_voting").html(data);
 									}})}'

@@ -42,10 +42,9 @@ class MovieController extends Controller
     /**
      * Get requested record from TMDb and saves it to cache (local DB).
      */
-    public function actionView()
+    public function actionView($id)
     {
         Yii::app()->getClientScript()->registerCoreScript('yii');
-        $id = Yii::app()->getRequest()->getParam('id');
         if ($id) {
             $movie = new Movie;
             if ($model = $movie->find('tmdbID=:tmdbID', array('tmdbID' => $id))) {
@@ -78,13 +77,12 @@ class MovieController extends Controller
     /**
      * Updates my personal rate and send it to TMDb
      */
-    public function actionRate()
+    public function actionRate($id)
     {
-        $id = Yii::app()->getRequest()->getParam('id');
         $rate = Yii::app()->getRequest()->getParam('rating');
         $model = $this->loadModel($id);
 
-        if ($id) {
+        if ($model) {
             Yii::app()->curl->get('https://api.themoviedb.org/3/movie/' . $model->tmdbID . '?guest_session_id='.TMDbSession::getSessionID().'&value='.$rate.'&api_key=' . TMDbSession::getApiKey());
             $model->rate = $rate;
             $model->save();

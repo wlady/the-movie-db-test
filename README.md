@@ -11,6 +11,10 @@ PHP and [Composer](https://getcomposer.org/) should be installed in the OS.  On 
 
 You can use "dc5117f6a7c925dca26f779672dc0022" API key to test the App.
 
-## Screenshot
+## Screenshots
 
 ![Now Playing Movies](https://github.com/wlady/the-movie-db-test/raw/master/screenshot82.png)
+
+![Movie Details](https://github.com/wlady/the-movie-db-test/raw/master/screenshot83.png)
+
+![Update Movie](https://github.com/wlady/the-movie-db-test/raw/master/screenshot84.png)
