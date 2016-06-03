@@ -75,7 +75,7 @@ class MovieController extends Controller
     }
 
     /**
-     * Updates my personal rate and send it to TMDb
+     * Updates my personal rate and sends it to TMDb
      */
     public function actionRate($id)
     {
@@ -118,9 +118,7 @@ class MovieController extends Controller
     public function actionDelete($id)
     {
         $model = $this->loadModel($id);
-        Yii::log($model->poster_path);
         if (file_exists(getcwd().$model->poster_path)) {
-            unlink(getcwd().$model->poster_path);
             CFileHelper::removeDirectory(dirname(getcwd().$model->poster_path));
         }
         $model->delete();
